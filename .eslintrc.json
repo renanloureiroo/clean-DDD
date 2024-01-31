@@ -1,0 +1,16 @@
+{
+  "plugins": ["prettier"],
+  "extends": [
+    "@rocketseat/eslint-config/node",
+    "plugin:prettier/recommended",
+    "plugin:vitest-globals/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-empty-interface": "off"
+  },
+  "env": {
+    "vitest-globals/env": true
+  }
+}
