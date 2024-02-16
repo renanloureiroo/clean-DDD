@@ -3,7 +3,7 @@ import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questio
 import { QuestionsRepository } from '../repositories/questions-repository'
 
 import { GetQuestionBySlugUseCase } from './get-question-by-slug'
-import { makeQuestion } from 'test/factories/make-question'
+import { makeQuestion } from 'test/repositories/factories/make-question'
 
 let questionRepository: QuestionsRepository
 let sut: GetQuestionBySlugUseCase

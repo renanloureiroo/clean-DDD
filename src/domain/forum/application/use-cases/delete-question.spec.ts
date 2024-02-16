@@ -1,4 +1,4 @@
-import { makeQuestion } from 'test/factories/make-question'
+import { makeQuestion } from 'test/repositories/factories/make-question'
 import { DeleteQuestionUseCase } from './delete-question'
 import { QuestionsRepository } from '../repositories/questions-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
