@@ -2,6 +2,14 @@ import { QuestionsRepository } from '@/domain/forum/application/repositories/que
 import { Question } from '@/domain/forum/enterprise/entities/question'
 
 class InMemoryQuestionsRepository implements QuestionsRepository {
+  async update(question: Question): Promise<void> {
+    const index = this.questions.findIndex(
+      (item) => item.id.toString() === question.id.toString(),
+    )
+
+    this.questions[index] = question
+  }
+
   async findById(questionId: string): Promise<Question | null> {
     const question = this.questions.find(
       (question) => question.id.toString() === questionId,
