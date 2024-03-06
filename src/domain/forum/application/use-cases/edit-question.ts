@@ -1,3 +1,4 @@
+import { Question } from '../../enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/questions-repository'
 
 interface EditQuestionUseCaseDTO {
@@ -7,7 +8,9 @@ interface EditQuestionUseCaseDTO {
   content: string
 }
 
-interface EditQuestionUseCaseResponse {}
+interface EditQuestionUseCaseResponse {
+  question: Question
+}
 
 class EditQuestionUseCase {
   constructor(private readonly questionRepository: QuestionsRepository) {}
@@ -33,7 +36,9 @@ class EditQuestionUseCase {
 
     await this.questionRepository.update(question)
 
-    return {}
+    return {
+      question,
+    }
   }
 }
 

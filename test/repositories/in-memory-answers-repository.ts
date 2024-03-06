@@ -1,9 +1,16 @@
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
-import { aN } from 'vitest/dist/reporters-rzC174PQ'
 
 class InMemoryAnswersRepository implements AnswersRepository {
   private answers: Answer[] = []
+  async update(answer: Answer): Promise<void> {
+    const index = this.answers.findIndex(
+      (item) => item.id.toString() === answer.id.toString(),
+    )
+
+    this.answers[index] = answer
+  }
+
   async delete(answer: Answer): Promise<void> {
     const index = this.answers.findIndex(
       (a) => a.id.toString() === answer.id.toString(),
