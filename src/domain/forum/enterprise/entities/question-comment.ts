@@ -11,11 +11,17 @@ class QuestionComment extends Comment<QuestionCommentProps> {
     return this.props.questionId
   }
 
-  static create(props: Optional<QuestionCommentProps, 'createdAt'>) {
-    const answerComment = new QuestionComment({
-      ...props,
-      createdAt: props.createdAt ?? new Date(),
-    })
+  static create(
+    props: Optional<QuestionCommentProps, 'createdAt'>,
+    id?: UniqueEntityId,
+  ) {
+    const answerComment = new QuestionComment(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id,
+    )
     return answerComment
   }
 }
