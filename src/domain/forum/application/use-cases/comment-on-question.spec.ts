@@ -1,10 +1,9 @@
 import { QuestionsRepository } from '../repositories/questions-repository'
-import { ChooseQuestionBesAnswerUseCase } from './choose-question-best-answer'
 
 import { makeQuestion } from 'test/repositories/factories/make-question'
-import { makeAnswer } from 'test/repositories/factories/make-answer'
-import { QuestionCommentsRepository } from '../repositories/question-comments-respository'
-import { CommentOnQuestionUseCase } from './commet-on-question'
+
+import { QuestionCommentsRepository } from '../repositories/question-comments-repository'
+import { CommentOnQuestionUseCase } from './comment-on-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
 
