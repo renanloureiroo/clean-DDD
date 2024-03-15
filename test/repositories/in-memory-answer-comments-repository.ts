@@ -1,8 +1,20 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
 import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
 
 class InMemoryAnswerCommentsRepository implements AnswerCommentsRepository {
   private readonly answerComments: AnswerComment[] = []
+
+  async findManyByAnswerId(
+    answerId: string,
+    { page }: PaginationParams,
+  ): Promise<AnswerComment[]> {
+    const comments = this.answerComments
+      .filter((answerComment) => answerComment.answerId.toString() === answerId)
+      .slice((page - 1) * 20, page * 20)
+
+    return comments
+  }
 
   async findById(id: string): Promise<AnswerComment | null> {
     const comment = this.answerComments.find(
