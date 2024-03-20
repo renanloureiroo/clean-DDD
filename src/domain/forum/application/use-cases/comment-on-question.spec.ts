@@ -6,6 +6,7 @@ import { QuestionCommentsRepository } from '../repositories/question-comments-re
 import { CommentOnQuestionUseCase } from './comment-on-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let questionRepository: QuestionsRepository
 let questionCommentsRepository: QuestionCommentsRepository
@@ -31,17 +32,20 @@ describe('Comment On Question', () => {
       questionId: question.id.toString(),
       content: 'fake-content',
     })
-
-    expect(response.questionComment.id).toBeTruthy()
+    expect(response.isRight()).toBeTruthy()
+    expect(response.isRight() && response.value.questionComment.id).toBeTruthy()
   })
 
   it('should not be able to create comment on a non-existing question', async () => {
-    await expect(() =>
-      sut.execute({
-        authorId: 'fake-author-id',
-        questionId: 'fake-question-id',
-        content: 'fake-content',
-      }),
-    ).rejects.toThrow('Question not found')
+    const response = await sut.execute({
+      authorId: 'fake-author-id',
+      questionId: 'fake-question-id',
+      content: 'fake-content',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.isLeft() && response.value).toBeInstanceOf(
+      ResourceNotFoundError,
+    )
   })
 })

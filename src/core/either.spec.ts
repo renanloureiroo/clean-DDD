@@ -15,7 +15,7 @@ test('success result', () => {
     console.log(result.value)
   }
 
-  expect(result.value).toEqual('success')
+  expect(result.value).toEqual(2)
   expect(result.isRight()).toBeTruthy()
   expect(result.isLeft()).toBeFalsy()
 })

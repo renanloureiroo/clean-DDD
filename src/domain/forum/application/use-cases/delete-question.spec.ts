@@ -3,6 +3,8 @@ import { DeleteQuestionUseCase } from './delete-question'
 import { QuestionsRepository } from '../repositories/questions-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from './errors/resource-not-found'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 let questionRepository: QuestionsRepository
 let sut: DeleteQuestionUseCase
@@ -28,12 +30,14 @@ describe('UseCases => Delete Question', () => {
   })
 
   it("should not be able delete a question that doesn't exist", async () => {
-    await expect(
-      sut.execute({
-        authorId: 'any_author_id',
-        questionId: 'question-1',
-      }),
-    ).rejects.toThrow('Question not found')
+    const response = await sut.execute({
+      authorId: 'any_author_id',
+      questionId: 'question-1',
+    })
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.isLeft() && response.value).toBeInstanceOf(
+      ResourceNotFoundError,
+    )
   })
 
   it("should not be able delete a question that you don't own", async () => {
@@ -46,11 +50,12 @@ describe('UseCases => Delete Question', () => {
 
     await questionRepository.create(newQuestion)
 
-    await expect(
-      sut.execute({
-        authorId: 'any_author_id',
-        questionId: 'question-1',
-      }),
-    ).rejects.toThrow('You are not allowed to delete this question')
+    const response = await sut.execute({
+      authorId: 'any_author_id',
+      questionId: 'question-1',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.isLeft() && response.value).toBeInstanceOf(NotAllowedError)
   })
 })

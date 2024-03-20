@@ -25,17 +25,19 @@ describe('List Answer Comments', () => {
       await answerCommentsRepository.create(answerComment)
     }
 
-    const { answerComments } = await sut.execute({ answerId })
+    const response = await sut.execute({ answerId })
 
-    expect(answerComments).toHaveLength(3)
+    expect(response.isRight()).toBeTruthy()
+    expect(response.isRight() && response.value.answerComments).toHaveLength(3)
   })
 
   it('should return an empty array if there are no comments', async () => {
     const answerId = 'answer-id-test'
 
-    const { answerComments } = await sut.execute({ answerId })
+    const response = await sut.execute({ answerId })
 
-    expect(answerComments).toHaveLength(0)
+    expect(response.isRight()).toBeTruthy()
+    expect(response.isRight() && response.value.answerComments).toHaveLength(0)
   })
 
   it('should be able to paginate the comments', async () => {
@@ -49,17 +51,21 @@ describe('List Answer Comments', () => {
       await answerCommentsRepository.create(answerComment)
     }
 
-    const { answerComments: firstPageComments } = await sut.execute({
+    const response1 = await sut.execute({
       answerId,
       page: 1,
     })
 
-    const { answerComments: secondPageComments } = await sut.execute({
+    const response2 = await sut.execute({
       answerId,
       page: 2,
     })
 
-    expect(firstPageComments).toHaveLength(20)
-    expect(secondPageComments).toHaveLength(10)
+    expect(response1.isRight() && response1.value.answerComments).toHaveLength(
+      20,
+    )
+    expect(response2.isRight() && response2.value.answerComments).toHaveLength(
+      10,
+    )
   })
 })

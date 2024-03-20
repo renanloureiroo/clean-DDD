@@ -4,6 +4,7 @@ import { QuestionsRepository } from '../repositories/questions-repository'
 
 import { GetQuestionBySlugUseCase } from './get-question-by-slug'
 import { makeQuestion } from 'test/repositories/factories/make-question'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let questionRepository: QuestionsRepository
 let sut: GetQuestionBySlugUseCase
@@ -19,18 +20,23 @@ describe('UseCases =>  Get Question By Slug', () => {
 
     await questionRepository.create(question)
 
-    const { question: questionResponse } = await sut.execute({
+    const response = await sut.execute({
       slug: question.slug.value,
     })
 
-    expect(questionResponse).toBeTruthy()
+    expect(response.isRight()).toBeTruthy()
+
+    expect(response.isRight() && response.value.question).toEqual(question)
   })
 
   it("should not be return a question if it doesn't exists", async () => {
-    await expect(() =>
-      sut.execute({
-        slug: 'titulo-da-pergunta',
-      }),
-    ).rejects.toThrow('Question not found')
+    const response = await sut.execute({
+      slug: 'titulo-da-pergunta',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.isLeft() && response.value).toBeInstanceOf(
+      ResourceNotFoundError,
+    )
   })
 })

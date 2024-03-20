@@ -20,12 +20,15 @@ describe('List Questions Answers', async () => {
       }),
     )
 
-    const { answers } = await sut.execute({
+    const response = await sut.execute({
       questionId: 'list-question-answers-id',
     })
 
-    expect(answers).toHaveLength(1)
-    expect(answers[0].questionId.toString()).toBe('list-question-answers-id')
+    expect(response.isRight()).toBeTruthy()
+    expect(response.isRight() && response.value.answers).toHaveLength(1)
+    expect(
+      response.isRight() && response.value.answers[0].questionId.toString(),
+    ).toBe('list-question-answers-id')
   })
 
   it('should list question answers with pagination', async () => {
@@ -37,11 +40,12 @@ describe('List Questions Answers', async () => {
       )
     }
 
-    const { answers } = await sut.execute({
+    const response = await sut.execute({
       questionId: 'list-question-answers-id',
       page: 2,
     })
 
-    expect(answers).toHaveLength(6)
+    expect(response.isRight()).toBeTruthy()
+    expect(response.isRight() && response.value.answers).toHaveLength(6)
   })
 })

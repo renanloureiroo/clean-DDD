@@ -3,6 +3,7 @@ import { QuestionCommentsRepository } from '../repositories/question-comments-re
 import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
 import { DeleteQuestionCommentUseCase } from './delete-question-comment'
 import { makeQuestionComment } from 'test/repositories/factories/make-question-comment'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let questionCommentsRepository: QuestionCommentsRepository
 let sut: DeleteQuestionCommentUseCase
@@ -24,15 +25,18 @@ describe('Delete Question Comment', () => {
       questionCommentId: questionComment.id.toString(),
     })
 
-    expect(response.questionComment).toEqual(questionComment)
+    expect(response.isRight()).toBeTruthy()
   })
 
   it('should not be able to delete a non-existing comment', async () => {
-    await expect(() =>
-      sut.execute({
-        authorId: 'fake-author-id',
-        questionCommentId: 'fake-comment-id',
-      }),
-    ).rejects.toThrow('Comment not found')
+    const response = await sut.execute({
+      authorId: 'fake-author-id',
+      questionCommentId: 'fake-comment-id',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.isLeft() && response.value).toBeInstanceOf(
+      ResourceNotFoundError,
+    )
   })
 })

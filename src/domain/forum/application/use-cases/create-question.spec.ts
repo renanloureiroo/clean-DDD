@@ -19,6 +19,7 @@ describe('UseCases =>  Create Question', () => {
       title: 'Titulo da pergunta',
     })
 
-    expect(answer.question.id).toBeTruthy()
+    expect(answer.isRight()).toBeTruthy()
+    expect(answer.isRight() && answer.value.question.id).toBeTruthy()
   })
 })

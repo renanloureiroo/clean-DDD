@@ -4,6 +4,8 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { AnswersRepository } from '../repositories/answers-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { EditAnswerUseCase } from './edit-answer'
+import { ResourceNotFoundError } from './errors/resource-not-found'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 let answerRepository: AnswersRepository
 let sut: EditAnswerUseCase
@@ -31,13 +33,16 @@ describe('UseCases => Edit Answer', () => {
   })
 
   it("should not be able edit a answer that doesn't exist", async () => {
-    await expect(
-      sut.execute({
-        authorId: 'any_author_id',
-        answerId: 'answer-1',
-        content: 'new content',
-      }),
-    ).rejects.toThrow('Answer not found')
+    const response = await sut.execute({
+      authorId: 'any_author_id',
+      answerId: 'answer-1',
+      content: 'new content',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.isLeft() && response.value).toBeInstanceOf(
+      ResourceNotFoundError,
+    )
   })
 
   it("should not be able edit a answer that you don't own", async () => {
@@ -50,12 +55,14 @@ describe('UseCases => Edit Answer', () => {
 
     await answerRepository.create(newAnswer)
 
-    await expect(
-      sut.execute({
-        authorId: 'any_author_id',
-        answerId: newAnswer.id.toString(),
-        content: 'new content',
-      }),
-    ).rejects.toThrow('You are not allowed to edit this answer')
+    const response = await sut.execute({
+      authorId: 'any_author_id',
+      answerId: newAnswer.id.toString(),
+      content: 'new content',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+
+    expect(response.isLeft() && response.value).toBeInstanceOf(NotAllowedError)
   })
 })

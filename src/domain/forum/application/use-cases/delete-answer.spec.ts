@@ -3,6 +3,8 @@ import { DeleteAnswerUseCase } from './delete-answer'
 import { AnswersRepository } from '../repositories/answers-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from './errors/resource-not-found'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 let answerRepository: AnswersRepository
 let sut: DeleteAnswerUseCase
@@ -28,12 +30,15 @@ describe('UseCases => Delete Answer', () => {
   })
 
   it("should not be able delete a answer that doesn't exist", async () => {
-    await expect(
-      sut.execute({
-        authorId: 'any_author_id',
-        answerId: 'answer-1',
-      }),
-    ).rejects.toThrow('Answer not found')
+    const response = await sut.execute({
+      authorId: 'any_author_id',
+      answerId: 'answer-1',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.isLeft() && response.value).toBeInstanceOf(
+      ResourceNotFoundError,
+    )
   })
 
   it("should not be able delete a answer that you don't own", async () => {
@@ -46,11 +51,12 @@ describe('UseCases => Delete Answer', () => {
 
     await answerRepository.create(newAnswer)
 
-    await expect(
-      sut.execute({
-        authorId: 'any_author_id',
-        answerId: 'answer-1',
-      }),
-    ).rejects.toThrow('You are not allowed to delete this answer')
+    const response = await sut.execute({
+      authorId: 'any_author_id',
+      answerId: 'answer-1',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.isLeft() && response.value).toBeInstanceOf(NotAllowedError)
   })
 })

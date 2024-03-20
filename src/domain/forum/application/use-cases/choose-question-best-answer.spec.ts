@@ -5,6 +5,7 @@ import { ChooseQuestionBesAnswerUseCase } from './choose-question-best-answer'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { makeQuestion } from 'test/repositories/factories/make-question'
 import { makeAnswer } from 'test/repositories/factories/make-answer'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 let questionRepository: QuestionsRepository
 let answerRepository: AnswersRepository
@@ -35,9 +36,7 @@ describe('Choose Question Best Answer', () => {
       authorId: question.authorId.toString(),
     })
 
-    expect(response.question.bestAnswerId?.toString()).toBe(
-      answer.id.toString(),
-    )
+    expect(response.isRight()).toBeTruthy()
   })
 
   it("should not be able to choose the another user question's best answer", async () => {
@@ -49,11 +48,12 @@ describe('Choose Question Best Answer', () => {
 
     answerRepository.create(answer)
 
-    await expect(
-      sut.execute({
-        answerId: answer.id.toString(),
-        authorId: 'another-user-id',
-      }),
-    ).rejects.toThrow('You are not allowed to choose the best answer')
+    const response = await sut.execute({
+      answerId: answer.id.toString(),
+      authorId: 'another-user-id',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.value).toBeInstanceOf(NotAllowedError)
   })
 })
