@@ -1,11 +1,12 @@
 import { makeAnswer } from 'test/repositories/factories/make-answer'
+import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+
 import { AnswersRepository } from '../repositories/answers-repository'
-import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { EditAnswerUseCase } from './edit-answer'
-import { ResourceNotFoundError } from './errors/resource-not-found'
 import { NotAllowedError } from './errors/not-allowed-error'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let answerRepository: AnswersRepository
 let sut: EditAnswerUseCase

@@ -1,8 +1,9 @@
 import { Either, left, right } from '@/core/either'
+
 import { Answer } from '../../enterprise/entities/answer'
 import { AnswersRepository } from '../repositories/answers-repository'
-import { ResourceNotFoundError } from './errors/resource-not-found'
 import { NotAllowedError } from './errors/not-allowed-error'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
 interface EditAnswerUseCaseDTO {
   authorId: string

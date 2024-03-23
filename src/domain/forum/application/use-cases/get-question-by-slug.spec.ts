@@ -1,10 +1,9 @@
+import { makeQuestion } from 'test/repositories/factories/make-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
 import { QuestionsRepository } from '../repositories/questions-repository'
-
-import { GetQuestionBySlugUseCase } from './get-question-by-slug'
-import { makeQuestion } from 'test/repositories/factories/make-question'
 import { ResourceNotFoundError } from './errors/resource-not-found'
+import { GetQuestionBySlugUseCase } from './get-question-by-slug'
 
 let questionRepository: QuestionsRepository
 let sut: GetQuestionBySlugUseCase

@@ -1,11 +1,10 @@
-import { AnswersRepository } from '../repositories/answers-repository'
-
 import { makeAnswer } from 'test/repositories/factories/make-answer'
+import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
+import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
 import { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
+import { AnswersRepository } from '../repositories/answers-repository'
 import { CommentOnAnswerUseCase } from './comment-on-answer'
-import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
-import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let answerRepository: AnswersRepository

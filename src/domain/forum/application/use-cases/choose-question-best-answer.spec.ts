@@ -1,10 +1,11 @@
+import { makeAnswer } from 'test/repositories/factories/make-answer'
+import { makeQuestion } from 'test/repositories/factories/make-question'
+import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+
 import { AnswersRepository } from '../repositories/answers-repository'
 import { QuestionsRepository } from '../repositories/questions-repository'
 import { ChooseQuestionBesAnswerUseCase } from './choose-question-best-answer'
-import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
-import { makeQuestion } from 'test/repositories/factories/make-question'
-import { makeAnswer } from 'test/repositories/factories/make-answer'
 import { NotAllowedError } from './errors/not-allowed-error'
 
 let questionRepository: QuestionsRepository

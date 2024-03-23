@@ -1,8 +1,8 @@
-import { QuestionCommentsRepository } from '../repositories/question-comments-repository'
-
-import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
-import { DeleteQuestionCommentUseCase } from './delete-question-comment'
 import { makeQuestionComment } from 'test/repositories/factories/make-question-comment'
+import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
+
+import { QuestionCommentsRepository } from '../repositories/question-comments-repository'
+import { DeleteQuestionCommentUseCase } from './delete-question-comment'
 import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let questionCommentsRepository: QuestionCommentsRepository

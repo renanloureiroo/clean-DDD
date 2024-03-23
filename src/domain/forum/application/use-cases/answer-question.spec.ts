@@ -1,4 +1,5 @@
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+
 import { AnswersRepository } from '../repositories/answers-repository'
 import { AnswerQuestionUseCase } from './answer-question'
 
@@ -18,7 +19,7 @@ describe('UseCases =>  Create Answer', () => {
       questionId: 'any_question_id',
     })
 
-    expect(response.isRight()).toBeTruthy()
-    expect(response.value.answer).toHaveProperty('id')
+    expect(response.isRight()).toBe(true)
+    expect(response.isRight() && response.value.answer).toHaveProperty('id')
   })
 })

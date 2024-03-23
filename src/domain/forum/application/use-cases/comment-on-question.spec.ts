@@ -1,11 +1,10 @@
-import { QuestionsRepository } from '../repositories/questions-repository'
-
 import { makeQuestion } from 'test/repositories/factories/make-question'
+import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
 import { QuestionCommentsRepository } from '../repositories/question-comments-repository'
+import { QuestionsRepository } from '../repositories/questions-repository'
 import { CommentOnQuestionUseCase } from './comment-on-question'
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
-import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let questionRepository: QuestionsRepository

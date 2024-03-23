@@ -1,8 +1,10 @@
+import { makeAnswer } from 'test/repositories/factories/make-answer'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+
 import { AnswersRepository } from '../repositories/answers-repository'
 import { ListQuestionAnswersUseCase } from './list-question-answers'
-import { makeAnswer } from 'test/repositories/factories/make-answer'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 let answersRepository: AnswersRepository
 let sut: ListQuestionAnswersUseCase

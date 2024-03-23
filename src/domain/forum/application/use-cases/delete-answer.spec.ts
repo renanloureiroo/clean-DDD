@@ -1,10 +1,12 @@
 import { makeAnswer } from 'test/repositories/factories/make-answer'
-import { DeleteAnswerUseCase } from './delete-answer'
-import { AnswersRepository } from '../repositories/answers-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { ResourceNotFoundError } from './errors/resource-not-found'
+
+import { AnswersRepository } from '../repositories/answers-repository'
+import { DeleteAnswerUseCase } from './delete-answer'
 import { NotAllowedError } from './errors/not-allowed-error'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let answerRepository: AnswersRepository
 let sut: DeleteAnswerUseCase

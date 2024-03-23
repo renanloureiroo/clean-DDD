@@ -1,10 +1,12 @@
 import { makeQuestion } from 'test/repositories/factories/make-question'
-import { DeleteQuestionUseCase } from './delete-question'
-import { QuestionsRepository } from '../repositories/questions-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { ResourceNotFoundError } from './errors/resource-not-found'
+
+import { QuestionsRepository } from '../repositories/questions-repository'
+import { DeleteQuestionUseCase } from './delete-question'
 import { NotAllowedError } from './errors/not-allowed-error'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
 let questionRepository: QuestionsRepository
 let sut: DeleteQuestionUseCase

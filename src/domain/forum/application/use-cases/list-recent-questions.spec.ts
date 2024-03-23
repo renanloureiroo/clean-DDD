@@ -1,7 +1,8 @@
+import { makeQuestion } from 'test/repositories/factories/make-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+
 import { QuestionsRepository } from '../repositories/questions-repository'
 import { ListRecentQuestionsUseCase } from './list-recent-questions'
-import { makeQuestion } from 'test/repositories/factories/make-question'
 
 let questionsRepository: QuestionsRepository
 let sut: ListRecentQuestionsUseCase
